@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String   @id @default(cuid())
+  email           String   @unique
+  password        String
+  name            String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  currentPlanId   String   @default("free")
+  insightsUsed    Int      @default(0)
+  
+  dreams          DreamRecording[]
+  
+  @@map("users")
+}
+
+model DreamRecording {
+  id                String   @id @default(cuid())
+  userId            String
+  recordingDate     DateTime @default(now())
+  dreamText         String
+  timeOfSleepApprox String?
+  moodUponWaking    String
+  dreamClarity      String
+  lucidStatus       Boolean  @default(false)
+  preSleepActivities String?
+  keySymbols        String[]
+  keyPeople         String[]
+  dreamCategory     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  insight         AIInsight?
+  tags            DreamTag[]
+  
+  @@index([userId])
+  @@index([recordingDate])
+  @@map("dream_recordings")
+}
+
+model DreamTag {
+  id          String @id @default(cuid())
+  recordingId String
+  tagType     String // SYMBOL, PERSON, PLACE, OBJECT
+  tagValue    String
+  tagIntensity Int?
+  
+  recording   DreamRecording @relation(fields: [recordingId], references: [id], onDelete: Cascade)
+  
+  @@index([tagValue])
+  @@index([tagType])
+  @@map("dream_tags")
+}
+
+model AIInsight {
+  id                String   @id @default(cuid())
+  recordingId       String   @unique
+  insightText       String
+  emotionalToneTags Json?
+  trendSummary      String?
+  symbols           String[]
+  themes            String[]
+  generatedAt       DateTime @default(now())
+
+  recording         DreamRecording @relation(fields: [recordingId], references: [id], onDelete: Cascade)
+  
+  @@map("ai_insights")
+}
+
+model SubscriptionPlan {
+  id           String  @id @default(cuid())
+  planName     String  @unique
+  monthlyPrice Float
+  insightLimit Int?    // null means unlimited
+  
+  @@map("subscription_plans")
+}

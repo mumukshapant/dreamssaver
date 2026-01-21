@@ -1,65 +1,131 @@
-import Image from "next/image";
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Button from '@/components/common/Button'
+import AuthModal from '@/components/auth/AuthModal'
+import { useAuth } from '@/contexts/AuthContext'
+import { Sparkles, Moon, Brain, TrendingUp } from 'lucide-react'
 
 export default function Home() {
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  const [dreamText, setDreamText] = useState('')
+  const { user, loading } = useAuth()
+  const router = useRouter()
+
+  const handleDreamSubmit = () => {
+    if (!user) {
+      // Show auth modal if not logged in
+      setShowAuthModal(true)
+    } else {
+      // TODO: Navigate to dream recording page or save dream
+      router.push('/dashboard')
+    }
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <div className="dreamy-bg min-h-screen">
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 py-20">
+        <div className="max-w-4xl w-full space-y-12 animate-fade-in">
+          {/* Logo and Title */}
+          <div className="text-center space-y-6">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Moon className="w-12 h-12 animate-float" style={{ color: 'var(--soft-lavender)' }} />
+              <h1 className="text-5xl md:text-6xl font-bold" style={{ color: 'var(--celestial-white)' }}>
+                Dreamssaver
+              </h1>
+            </div>
+            <p className="text-xl md:text-2xl max-w-2xl mx-auto leading-relaxed" style={{ color: 'rgba(240, 244, 248, 0.9)' }}>
+              Capture your dreams, discover patterns, and unlock insights into your subconscious with AI-powered analysis
+            </p>
+          </div>
+
+          {/* Features Grid */}
+          <div className="grid md:grid-cols-3 gap-6 mt-16">
+            <div className="card-dreamy text-center space-y-4">
+              <Brain className="w-10 h-10 mx-auto" style={{ color: 'var(--soft-lavender)' }} />
+              <h3 className="text-xl font-semibold" style={{ color: 'var(--celestial-white)' }}>AI Insights</h3>
+              <p className="text-sm" style={{ color: 'rgba(240, 244, 248, 0.7)' }}>
+                Discover recurring symbols, emotional patterns, and meaningful connections in your dreams
+              </p>
+            </div>
+            <div className="card-dreamy text-center space-y-4">
+              <TrendingUp className="w-10 h-10 mx-auto" style={{ color: 'var(--muted-teal)' }} />
+              <h3 className="text-xl font-semibold" style={{ color: 'var(--celestial-white)' }}>Track Trends</h3>
+              <p className="text-sm" style={{ color: 'rgba(240, 244, 248, 0.7)' }}>
+                Visualize your dream patterns over time with beautiful charts and analytics
+              </p>
+            </div>
+            <div className="card-dreamy text-center space-y-4">
+              <Sparkles className="w-10 h-10 mx-auto" style={{ color: 'var(--gentle-rose)' }} />
+              <h3 className="text-xl font-semibold" style={{ color: 'var(--celestial-white)' }}>Dreamy Design</h3>
+              <p className="text-sm" style={{ color: 'rgba(240, 244, 248, 0.7)' }}>
+                A beautiful, calming interface designed for reflection and introspection
+              </p>
+            </div>
+          </div>
+
+          {/* Dream Input Section */}
+          <div className="card-dreamy mt-16 space-y-6">
+            <div className="space-y-2">
+              <h2 className="text-2xl font-semibold" style={{ color: 'var(--celestial-white)' }}>
+                Start Your Dream Journey
+              </h2>
+              <p style={{ color: 'rgba(240, 244, 248, 0.7)' }}>
+                Record your dream below. Sign up or log in to save and analyze it with AI.
+              </p>
+            </div>
+            
+            <textarea
+              className="input-dreamy min-h-[200px] resize-none"
+              placeholder="Describe your dream here... What did you see? How did you feel? What stood out to you?"
+              value={dreamText}
+              onChange={(e) => setDreamText(e.target.value)}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button
+                onClick={handleDreamSubmit}
+                disabled={!dreamText.trim()}
+                className="flex-1"
+              >
+                Save & Analyze Dream
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => setShowAuthModal(true)}
+                className="flex-1"
+              >
+                Sign Up / Log In
+              </Button>
+            </div>
+
+            <p className="text-sm text-center" style={{ color: 'rgba(240, 244, 248, 0.6)' }}>
+              Free tier includes 5 AI insights. Upgrade to Premium for unlimited analysis.
+            </p>
+          </div>
+
+          {/* CTA Section */}
+          <div className="text-center space-y-4 mt-12">
+            <p className="text-lg" style={{ color: 'rgba(240, 244, 248, 0.8)' }}>
+              Join thousands exploring their inner world through dreams
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <span className="tag tag-lavender">Unlimited Dream Storage</span>
+              <span className="tag tag-teal">AI-Powered Analysis</span>
+              <span className="tag tag-rose">5 Free Insights</span>
+            </div>
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        initialMode="login"
+      />
     </div>
-  );
+  )
 }
