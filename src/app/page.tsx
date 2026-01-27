@@ -25,8 +25,8 @@ export default function Home() {
 
   return (
     <div className="dreamy-bg min-h-screen">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 py-20">
+      {/* Hero Section – content above background layers */}
+      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-20">
         <div className="max-w-4xl w-full space-y-12 animate-fade-in">
           {/* Logo and Title */}
           <div className="text-center space-y-6">
@@ -41,33 +41,8 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Features Grid */}
-          <div className="grid md:grid-cols-3 gap-6 mt-16">
-            <div className="card-dreamy text-center space-y-4">
-              <Brain className="w-10 h-10 mx-auto" style={{ color: 'var(--soft-lavender)' }} />
-              <h3 className="text-xl font-semibold" style={{ color: 'var(--celestial-white)' }}>AI Insights</h3>
-              <p className="text-sm" style={{ color: 'rgba(240, 244, 248, 0.7)' }}>
-                Discover recurring symbols, emotional patterns, and meaningful connections in your dreams
-              </p>
-            </div>
-            <div className="card-dreamy text-center space-y-4">
-              <TrendingUp className="w-10 h-10 mx-auto" style={{ color: 'var(--muted-teal)' }} />
-              <h3 className="text-xl font-semibold" style={{ color: 'var(--celestial-white)' }}>Track Trends</h3>
-              <p className="text-sm" style={{ color: 'rgba(240, 244, 248, 0.7)' }}>
-                Visualize your dream patterns over time with beautiful charts and analytics
-              </p>
-            </div>
-            <div className="card-dreamy text-center space-y-4">
-              <Sparkles className="w-10 h-10 mx-auto" style={{ color: 'var(--gentle-rose)' }} />
-              <h3 className="text-xl font-semibold" style={{ color: 'var(--celestial-white)' }}>Dreamy Design</h3>
-              <p className="text-sm" style={{ color: 'rgba(240, 244, 248, 0.7)' }}>
-                A beautiful, calming interface designed for reflection and introspection
-              </p>
-            </div>
-          </div>
-
-          {/* Dream Input Section */}
-          <div className="card-dreamy mt-16 space-y-6">
+          {/* Dream Input Section - Start Your Dream Journey */}
+          <div className="card-dreamy space-y-6">
             <div className="space-y-2">
               <h2 className="text-2xl font-semibold" style={{ color: 'var(--celestial-white)' }}>
                 Start Your Dream Journey
@@ -104,6 +79,31 @@ export default function Home() {
             <p className="text-sm text-center" style={{ color: 'rgba(240, 244, 248, 0.6)' }}>
               Free tier includes 5 AI insights. Upgrade to Premium for unlimited analysis.
             </p>
+          </div>
+
+          {/* Features Grid */}
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="card-dreamy text-center space-y-4">
+              <Brain className="w-10 h-10 mx-auto" style={{ color: 'var(--soft-lavender)' }} />
+              <h3 className="text-xl font-semibold" style={{ color: 'var(--celestial-white)' }}>AI Insights</h3>
+              <p className="text-sm" style={{ color: 'rgba(240, 244, 248, 0.7)' }}>
+                Discover recurring symbols, emotional patterns, and meaningful connections in your dreams
+              </p>
+            </div>
+            <div className="card-dreamy text-center space-y-4">
+              <TrendingUp className="w-10 h-10 mx-auto" style={{ color: 'var(--muted-teal)' }} />
+              <h3 className="text-xl font-semibold" style={{ color: 'var(--celestial-white)' }}>Track Trends</h3>
+              <p className="text-sm" style={{ color: 'rgba(240, 244, 248, 0.7)' }}>
+                Visualize your dream patterns over time with beautiful charts and analytics
+              </p>
+            </div>
+            <div className="card-dreamy text-center space-y-4">
+              <Sparkles className="w-10 h-10 mx-auto" style={{ color: 'var(--gentle-rose)' }} />
+              <h3 className="text-xl font-semibold" style={{ color: 'var(--celestial-white)' }}>Dreamy Design</h3>
+              <p className="text-sm" style={{ color: 'rgba(240, 244, 248, 0.7)' }}>
+                A beautiful, calming interface designed for reflection and introspection
+              </p>
+            </div>
           </div>
 
           {/* CTA Section */}
