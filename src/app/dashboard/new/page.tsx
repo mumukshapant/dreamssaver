@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
@@ -34,6 +34,7 @@ export default function NewDreamPage() {
       .map((t) => t.trim())
       .filter(Boolean)
     const { error: err } = await supabase.from('dream_recordings').insert({
+      id: crypto.randomUUID(),
       user_id: user.id,
       dream_text: form.dream_text,
       recording_date: form.recording_date,
@@ -183,10 +184,11 @@ export default function NewDreamPage() {
             <Button type="submit" disabled={saving || !form.dream_text.trim()} isLoading={saving} className="flex-1">
               Save dream
             </Button>
-            <Link href="/dashboard" className="flex-1">
-              <Button type="button" variant="secondary" className="w-full">
-                Cancel
-              </Button>
+            <Link
+              href="/dashboard"
+              className="flex-1 flex items-center justify-center btn-secondary rounded-lg no-underline"
+            >
+              Cancel
             </Link>
           </div>
         </form>

@@ -2,6 +2,8 @@
 
 This guide will help you set up Supabase authentication and database for your Dreamssaver application.
 
+**Let users log in without confirming email:** In the Supabase dashboard go to **Authentication** → **Providers** → **Email** and turn **OFF** “Confirm email”. Then new sign-ups get a session immediately and can use the app right away.
+
 ## Step 1: Create a Supabase Project
 
 1. Go to [https://supabase.com](https://supabase.com) and sign up/login
@@ -47,13 +49,14 @@ This will create:
 - Seed data (subscription plans, lookup tables)
 - Triggers for automatic user profile creation
 
-## Step 5: Configure Email Authentication (Optional but Recommended)
+## Step 5: Configure Email Authentication – Allow Login Without Confirmation
 
 1. In Supabase dashboard, go to **Authentication** → **Providers**
-2. Make sure **Email** is enabled
-3. Configure email templates if desired (under **Authentication** → **Email Templates**)
+2. Click **Email**
+3. **Turn OFF “Confirm email”** so users can sign in immediately after signing up without clicking a verification link.
+4. Save changes.
 
-For development, you can use Supabase's built-in email service. For production, consider configuring a custom SMTP server.
+With this disabled, new users get a session as soon as they sign up and are redirected to the Dream Recording screen. Leave “Confirm email” on only if you need to verify addresses before allowing access.
 
 ## Step 6: Test the Setup
 
@@ -65,8 +68,7 @@ For development, you can use Supabase's built-in email service. For production, 
 2. Navigate to `http://localhost:3000`
 3. Click "Sign Up / Log In"
 4. Try creating a new account with your email
-5. Check your email for the confirmation link (if email confirmation is enabled)
-6. After confirming, try logging in
+5. You should be redirected to the Dream Recording screen immediately (no confirmation email step if Step 5 is configured as above)
 
 ## Step 7: Verify Database Setup
 
@@ -87,6 +89,19 @@ For development, you can use Supabase's built-in email service. For production, 
    - `lookup_clarity` should have 6 rows
 
 ## Troubleshooting
+
+### "Could not find the 'title' column of 'dream_recordings'" (Record new dream)
+The Dream Recording screen expects a `title` column. Add it in Supabase:
+
+1. Go to **SQL Editor** → **New Query**
+2. Run:
+
+```sql
+ALTER TABLE dream_recordings
+ADD COLUMN IF NOT EXISTS title TEXT;
+```
+
+3. Click **Run**. After this, saving a dream from "Record new dream" should work.
 
 ### "Invalid API key" error
 - Make sure your `.env.local` file has the correct `NEXT_PUBLIC_SUPABASE_ANON_KEY`

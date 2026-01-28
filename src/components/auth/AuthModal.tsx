@@ -5,6 +5,8 @@ import Button from '@/components/common/Button'
 import { useAuth } from '@/contexts/AuthContext'
 import { X } from 'lucide-react'
 
+const DREAM_RECORDING_PATH = '/dashboard/new'
+
 interface AuthModalProps {
   isOpen: boolean
   onClose: () => void
@@ -37,6 +39,8 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
           onClose()
           setEmail('')
           setPassword('')
+          window.location.href = DREAM_RECORDING_PATH
+          return
         }
       } else {
         const { error } = await signUp(email, password, name)
@@ -44,12 +48,12 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
           setError(error.message)
         } else {
           setError(null)
-          // Show success message - Supabase sends confirmation email
-          alert('Please check your email to confirm your account!')
-          setIsLogin(true)
+          onClose()
           setEmail('')
           setPassword('')
           setName('')
+          window.location.href = DREAM_RECORDING_PATH
+          return
         }
       }
     } catch (err: any) {

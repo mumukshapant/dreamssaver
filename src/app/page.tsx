@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Button from '@/components/common/Button'
 import AuthModal from '@/components/auth/AuthModal'
@@ -12,6 +12,12 @@ export default function Home() {
   const [dreamText, setDreamText] = useState('')
   const { user, loading } = useAuth()
   const router = useRouter()
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.replace('/dashboard/new')
+    }
+  }, [loading, user, router])
 
   const handleDreamSubmit = () => {
     if (!user) {
